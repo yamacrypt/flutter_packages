@@ -1,6 +1,15 @@
 ## NEXT
 
+## 2.11.1
+
+* Points federated implementation dependencies to the yamacrypt/flutter_packages
+  Git repository.
+
+## 2.11.0
+
 * Updates minimum supported SDK version to Flutter 3.29/Dart 3.7.
+* Adds an `initialBitrate` option on `VideoPlayerOptions` to provide adaptive
+  streaming bandwidth hints on Android and iOS implementations.
 
 ## 2.10.0
 

@@ -194,6 +194,32 @@ void main() {
       expect(creationOptions.httpHeaders, headers);
     });
 
+    test('create with network forwards initial bitrate', () async {
+      final (
+        AVFoundationVideoPlayer player,
+        MockAVFoundationVideoPlayerApi api,
+        _,
+      ) = setUpMockPlayer(playerId: 1);
+      when(
+        api.createForTextureView(any),
+      ).thenAnswer((_) async => TexturePlayerIds(playerId: 2, textureId: 100));
+
+      const int initialBitrate = 654321;
+      await player.create(
+        DataSource(
+          sourceType: DataSourceType.network,
+          uri: 'https://example.com',
+          initialBitrate: initialBitrate,
+        ),
+      );
+      final VerificationResult verification = verify(
+        api.createForTextureView(captureAny),
+      );
+      final CreationOptions creationOptions =
+          verification.captured[0] as CreationOptions;
+      expect(creationOptions.initialBitrate, initialBitrate);
+    });
+
     test('create with file', () async {
       final (
         AVFoundationVideoPlayer player,

@@ -148,6 +148,7 @@ class DataSource {
     this.asset,
     this.package,
     this.httpHeaders = const <String, String>{},
+    this.initialBitrate,
   });
 
   /// The way in which the video was originally loaded.
@@ -170,6 +171,16 @@ class DataSource {
   /// Only for [DataSourceType.network] videos.
   /// Always empty for other video types.
   Map<String, String> httpHeaders;
+
+  /// Target initial bitrate to use for adaptive streaming, in bits per second.
+  ///
+  /// This is primarily useful for HTTP Live Streaming (HLS) sources to avoid
+  /// starting playback at the lowest bitrate when a more accurate estimate of
+  /// the available bandwidth is known ahead of time.
+  ///
+  /// Only supported on Android and iOS implementations; other platforms will
+  /// silently ignore this value.
+  final int? initialBitrate;
 
   /// The name of the asset. Only set for [DataSourceType.asset] videos.
   final String? asset;
@@ -404,6 +415,7 @@ class VideoPlayerOptions {
     this.mixWithOthers = false,
     this.allowBackgroundPlayback = false,
     this.webOptions,
+    this.initialBitrate,
   });
 
   /// Set this to true to keep playing video in background, when app goes in background.
@@ -419,6 +431,13 @@ class VideoPlayerOptions {
 
   /// Additional web controls
   final VideoPlayerWebOptions? webOptions;
+
+  /// Target initial bitrate to use for adaptive streaming, in bits per second.
+  ///
+  /// This value is forwarded to platform implementations that support
+  /// providing an initial bandwidth estimate when starting playback (currently
+  /// Android and iOS). Other platforms will ignore this value.
+  final int? initialBitrate;
 }
 
 /// [VideoPlayerWebOptions] can be optionally used to set additional web settings
