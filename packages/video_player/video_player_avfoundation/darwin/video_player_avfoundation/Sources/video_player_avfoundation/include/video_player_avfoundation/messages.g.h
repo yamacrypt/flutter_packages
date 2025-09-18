@@ -29,9 +29,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// `init` unavailable to enforce nonnull fields, see the `make` class method.
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)makeWithUri:(NSString *)uri
-                httpHeaders:(NSDictionary<NSString *, NSString *> *)httpHeaders;
+                httpHeaders:(NSDictionary<NSString *, NSString *> *)httpHeaders
+             initialBitrate:(nullable NSNumber *)initialBitrate;
 @property(nonatomic, copy) NSString *uri;
 @property(nonatomic, copy) NSDictionary<NSString *, NSString *> *httpHeaders;
+@property(nonatomic, strong, nullable) NSNumber *initialBitrate;
 @end
 
 @interface FVPTexturePlayerIds : NSObject

@@ -27,12 +27,13 @@ class PlatformVideoViewCreationParams {
 }
 
 class CreateMessage {
-  CreateMessage({required this.uri, required this.httpHeaders});
+  CreateMessage({required this.uri, required this.httpHeaders, this.initialBitrate});
   String uri;
   PlatformVideoFormat? formatHint;
   Map<String, String> httpHeaders;
   String? userAgent;
   PlatformVideoViewType? viewType;
+  int? initialBitrate;
 }
 
 class PlaybackState {

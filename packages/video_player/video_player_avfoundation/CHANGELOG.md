@@ -1,6 +1,10 @@
 ## NEXT
 
+## 2.9.0
+
 * Updates minimum supported SDK version to Flutter 3.29/Dart 3.7.
+* Adds support for providing an initial HLS bitrate hint when creating
+  players.
 
 ## 2.8.4
 

@@ -197,6 +197,28 @@ void main() {
       expect(createMessage.userAgent, userAgent);
     });
 
+    test('create with network forwards initial bitrate', () async {
+      final (
+        AndroidVideoPlayer player,
+        MockAndroidVideoPlayerApi api,
+        _,
+      ) = setUpMockPlayer(playerId: 1);
+      when(api.create(any)).thenAnswer((_) async => 2);
+
+      const int initialBitrate = 123456;
+      await player.create(
+        DataSource(
+          sourceType: DataSourceType.network,
+          uri: 'https://example.com',
+          initialBitrate: initialBitrate,
+        ),
+      );
+      final VerificationResult verification = verify(api.create(captureAny));
+      final CreateMessage createMessage =
+          verification.captured[0] as CreateMessage;
+      expect(createMessage.initialBitrate, initialBitrate);
+    });
+
     test('create with file', () async {
       final (
         AndroidVideoPlayer player,

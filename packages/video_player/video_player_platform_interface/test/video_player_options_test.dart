@@ -14,4 +14,8 @@ void main() {
     final VideoPlayerOptions options = VideoPlayerOptions();
     expect(options.mixWithOthers, false);
   });
+  test('VideoPlayerOptions initialBitrate defaults to null', () {
+    final VideoPlayerOptions options = VideoPlayerOptions();
+    expect(options.initialBitrate, isNull);
+  });
 }
