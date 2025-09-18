@@ -12,6 +12,7 @@ import androidx.annotation.RestrictTo;
 import androidx.annotation.VisibleForTesting;
 import androidx.media3.common.MediaItem;
 import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.exoplayer.upstream.DefaultBandwidthMeter;
 import io.flutter.plugins.videoplayer.ExoPlayerEventListener;
 import io.flutter.plugins.videoplayer.VideoAsset;
 import io.flutter.plugins.videoplayer.VideoPlayer;
@@ -52,9 +53,17 @@ public final class TextureVideoPlayer extends VideoPlayer implements SurfaceProd
         asset.getMediaItem(),
         options,
         () -> {
-          ExoPlayer.Builder builder =
-              new ExoPlayer.Builder(context)
-                  .setMediaSourceFactory(asset.getMediaSourceFactory(context));
+          ExoPlayer.Builder builder = new ExoPlayer.Builder(context);
+          Long initialBitrate = asset.getInitialBitrate();
+          if (initialBitrate != null) {
+            DefaultBandwidthMeter bandwidthMeter =
+                new DefaultBandwidthMeter.Builder(context)
+                    .setInitialBitrateEstimate(initialBitrate)
+                    .build();
+            builder.setBandwidthMeter(bandwidthMeter);
+            asset.setTransferListener(bandwidthMeter);
+          }
+          builder.setMediaSourceFactory(asset.getMediaSourceFactory(context));
           return builder.build();
         });
   }

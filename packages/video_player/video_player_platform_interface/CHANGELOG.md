@@ -1,6 +1,10 @@
 ## NEXT
 
+## 6.5.0
+
 * Updates minimum supported SDK version to Flutter 3.29/Dart 3.7.
+* Adds an `initialBitrate` option to `DataSource` and `VideoPlayerOptions` for
+  providing adaptive streaming bandwidth hints.
 
 ## 6.4.0
 

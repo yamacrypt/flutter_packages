@@ -8,6 +8,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.media3.common.MediaItem;
+import androidx.media3.datasource.TransferListener;
 import androidx.media3.exoplayer.source.MediaSource;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,7 +43,29 @@ public abstract class VideoAsset {
       @NonNull StreamingFormat streamingFormat,
       @NonNull Map<String, String> httpHeaders,
       @Nullable String userAgent) {
-    return new HttpVideoAsset(remoteUrl, streamingFormat, new HashMap<>(httpHeaders), userAgent);
+    return fromRemoteUrl(remoteUrl, streamingFormat, httpHeaders, userAgent, null);
+  }
+
+  /**
+   * Returns an asset from a remote URL with an optional initial bitrate estimate.
+   *
+   * @param remoteUrl remote asset, i.e. typically beginning with {@code https://} or similar.
+   * @param streamingFormat which streaming format, provided as a hint if able.
+   * @param httpHeaders HTTP headers to set for a request.
+   * @param userAgent optional user agent for HTTP requests.
+   * @param initialBitrate initial bitrate estimate in bits per second, or {@code null} if not
+   *     provided.
+   * @return the asset.
+   */
+  @NonNull
+  static VideoAsset fromRemoteUrl(
+      @Nullable String remoteUrl,
+      @NonNull StreamingFormat streamingFormat,
+      @NonNull Map<String, String> httpHeaders,
+      @Nullable String userAgent,
+      @Nullable Long initialBitrate) {
+    return new HttpVideoAsset(
+        remoteUrl, streamingFormat, new HashMap<>(httpHeaders), userAgent, initialBitrate);
   }
 
   /**
@@ -60,6 +83,8 @@ public abstract class VideoAsset {
   }
 
   @Nullable protected final String assetUrl;
+
+  @Nullable private TransferListener transferListener;
 
   protected VideoAsset(@Nullable String assetUrl) {
     this.assetUrl = assetUrl;
@@ -81,6 +106,22 @@ public abstract class VideoAsset {
    */
   @NonNull
   public abstract MediaSource.Factory getMediaSourceFactory(@NonNull Context context);
+
+  /** Returns an optional initial bitrate estimate in bits per second. */
+  @Nullable
+  public Long getInitialBitrate() {
+    return null;
+  }
+
+  /** Sets the transfer listener that should be attached to network data sources. */
+  public void setTransferListener(@Nullable TransferListener transferListener) {
+    this.transferListener = transferListener;
+  }
+
+  @Nullable
+  protected TransferListener getTransferListener() {
+    return transferListener;
+  }
 
   /** Streaming formats that can be provided to the video player as a hint. */
   enum StreamingFormat {

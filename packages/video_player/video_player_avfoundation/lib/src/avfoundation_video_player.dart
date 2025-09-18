@@ -103,6 +103,7 @@ class AVFoundationVideoPlayer extends VideoPlayerPlatform {
     final CreationOptions pigeonCreationOptions = CreationOptions(
       uri: uri,
       httpHeaders: dataSource.httpHeaders,
+      initialBitrate: dataSource.initialBitrate,
     );
 
     final int playerId;
