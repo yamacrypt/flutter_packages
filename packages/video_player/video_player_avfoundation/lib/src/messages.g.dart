@@ -74,14 +74,16 @@ class PlatformVideoViewCreationParams {
 }
 
 class CreationOptions {
-  CreationOptions({required this.uri, required this.httpHeaders});
+  CreationOptions({required this.uri, required this.httpHeaders, this.initialBitrate});
 
   String uri;
 
   Map<String, String> httpHeaders;
 
+  int? initialBitrate;
+
   List<Object?> _toList() {
-    return <Object?>[uri, httpHeaders];
+    return <Object?>[uri, httpHeaders, initialBitrate];
   }
 
   Object encode() {
@@ -94,6 +96,7 @@ class CreationOptions {
       uri: result[0]! as String,
       httpHeaders:
           (result[1] as Map<Object?, Object?>?)!.cast<String, String>(),
+      initialBitrate: result[2] as int?,
     );
   }
 

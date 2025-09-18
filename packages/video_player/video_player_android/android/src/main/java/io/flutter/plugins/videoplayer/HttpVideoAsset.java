@@ -15,6 +15,7 @@ import androidx.media3.common.util.UnstableApi;
 import androidx.media3.datasource.DataSource;
 import androidx.media3.datasource.DefaultDataSource;
 import androidx.media3.datasource.DefaultHttpDataSource;
+import androidx.media3.datasource.TransferListener;
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
 import androidx.media3.exoplayer.source.MediaSource;
 import java.util.Map;
@@ -23,16 +24,19 @@ final class HttpVideoAsset extends VideoAsset {
   @NonNull private final StreamingFormat streamingFormat;
   @NonNull private final Map<String, String> httpHeaders;
   @Nullable private final String userAgent;
+  @Nullable private final Long initialBitrate;
 
   HttpVideoAsset(
       @Nullable String assetUrl,
       @NonNull StreamingFormat streamingFormat,
       @NonNull Map<String, String> httpHeaders,
-      @Nullable String userAgent) {
+      @Nullable String userAgent,
+      @Nullable Long initialBitrate) {
     super(assetUrl);
     this.streamingFormat = streamingFormat;
     this.httpHeaders = httpHeaders;
     this.userAgent = userAgent;
+    this.initialBitrate = initialBitrate;
   }
 
   @NonNull
@@ -76,8 +80,18 @@ final class HttpVideoAsset extends VideoAsset {
   MediaSource.Factory getMediaSourceFactory(
       Context context, DefaultHttpDataSource.Factory initialFactory) {
     unstableUpdateDataSourceFactory(initialFactory, httpHeaders, userAgent);
+    TransferListener transferListener = getTransferListener();
+    if (transferListener != null) {
+      initialFactory.setTransferListener(transferListener);
+    }
     DataSource.Factory dataSourceFactory = new DefaultDataSource.Factory(context, initialFactory);
     return new DefaultMediaSourceFactory(context).setDataSourceFactory(dataSourceFactory);
+  }
+
+  @Override
+  @Nullable
+  public Long getInitialBitrate() {
+    return initialBitrate;
   }
 
   // TODO: Migrate to stable API, see https://github.com/flutter/flutter/issues/147039.

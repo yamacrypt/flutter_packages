@@ -86,6 +86,7 @@ class CreateMessage {
     required this.httpHeaders,
     this.userAgent,
     this.viewType,
+    this.initialBitrate,
   });
 
   String uri;
@@ -98,8 +99,17 @@ class CreateMessage {
 
   PlatformVideoViewType? viewType;
 
+  int? initialBitrate;
+
   List<Object?> _toList() {
-    return <Object?>[uri, formatHint, httpHeaders, userAgent, viewType];
+    return <Object?>[
+      uri,
+      formatHint,
+      httpHeaders,
+      userAgent,
+      viewType,
+      initialBitrate,
+    ];
   }
 
   Object encode() {
@@ -115,6 +125,7 @@ class CreateMessage {
           (result[2] as Map<Object?, Object?>?)!.cast<String, String>(),
       userAgent: result[3] as String?,
       viewType: result[4] as PlatformVideoViewType?,
+      initialBitrate: result[5] as int?,
     );
   }
 

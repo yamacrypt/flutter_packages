@@ -73,16 +73,19 @@ static id GetNullableObjectAtIndex(NSArray<id> *array, NSInteger key) {
 
 @implementation FVPCreationOptions
 + (instancetype)makeWithUri:(NSString *)uri
-                httpHeaders:(NSDictionary<NSString *, NSString *> *)httpHeaders {
+                httpHeaders:(NSDictionary<NSString *, NSString *> *)httpHeaders
+             initialBitrate:(NSNumber *_Nullable)initialBitrate {
   FVPCreationOptions *pigeonResult = [[FVPCreationOptions alloc] init];
   pigeonResult.uri = uri;
   pigeonResult.httpHeaders = httpHeaders;
+  pigeonResult.initialBitrate = initialBitrate;
   return pigeonResult;
 }
 + (FVPCreationOptions *)fromList:(NSArray<id> *)list {
   FVPCreationOptions *pigeonResult = [[FVPCreationOptions alloc] init];
   pigeonResult.uri = GetNullableObjectAtIndex(list, 0);
   pigeonResult.httpHeaders = GetNullableObjectAtIndex(list, 1);
+  pigeonResult.initialBitrate = GetNullableObjectAtIndex(list, 2);
   return pigeonResult;
 }
 + (nullable FVPCreationOptions *)nullableFromList:(NSArray<id> *)list {
@@ -92,6 +95,7 @@ static id GetNullableObjectAtIndex(NSArray<id> *array, NSInteger key) {
   return @[
     self.uri ?: [NSNull null],
     self.httpHeaders ?: [NSNull null],
+    self.initialBitrate ?: [NSNull null],
   ];
 }
 @end

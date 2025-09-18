@@ -26,10 +26,11 @@ class PlatformVideoViewCreationParams {
 }
 
 class CreationOptions {
-  CreationOptions({required this.uri, required this.httpHeaders});
+  CreationOptions({required this.uri, required this.httpHeaders, this.initialBitrate});
 
   String uri;
   Map<String, String> httpHeaders;
+  int? initialBitrate;
 }
 
 class TexturePlayerIds {

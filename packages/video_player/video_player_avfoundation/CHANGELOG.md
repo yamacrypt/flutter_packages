@@ -1,6 +1,15 @@
 ## NEXT
 
+## 2.9.1
+
+* Uses the yamacrypt/flutter_packages Git repository for the platform
+  interface dependency when consumed via git.
+
+## 2.9.0
+
 * Updates minimum supported SDK version to Flutter 3.29/Dart 3.7.
+* Adds support for providing an initial HLS bitrate hint when creating
+  players.
 
 ## 2.8.4
 

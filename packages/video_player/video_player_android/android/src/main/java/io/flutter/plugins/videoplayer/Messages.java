@@ -220,6 +220,16 @@ public class Messages {
       this.viewType = setterArg;
     }
 
+    private @Nullable Long initialBitrate;
+
+    public @Nullable Long getInitialBitrate() {
+      return initialBitrate;
+    }
+
+    public void setInitialBitrate(@Nullable Long setterArg) {
+      this.initialBitrate = setterArg;
+    }
+
     /** Constructor is non-public to enforce null safety; use Builder. */
     CreateMessage() {}
 
@@ -236,12 +246,13 @@ public class Messages {
           && Objects.equals(formatHint, that.formatHint)
           && httpHeaders.equals(that.httpHeaders)
           && Objects.equals(userAgent, that.userAgent)
-          && Objects.equals(viewType, that.viewType);
+          && Objects.equals(viewType, that.viewType)
+          && Objects.equals(initialBitrate, that.initialBitrate);
     }
 
     @Override
     public int hashCode() {
-      return Objects.hash(uri, formatHint, httpHeaders, userAgent, viewType);
+      return Objects.hash(uri, formatHint, httpHeaders, userAgent, viewType, initialBitrate);
     }
 
     public static final class Builder {
@@ -286,6 +297,14 @@ public class Messages {
         return this;
       }
 
+      private @Nullable Long initialBitrate;
+
+      @CanIgnoreReturnValue
+      public @NonNull Builder setInitialBitrate(@Nullable Long setterArg) {
+        this.initialBitrate = setterArg;
+        return this;
+      }
+
       public @NonNull CreateMessage build() {
         CreateMessage pigeonReturn = new CreateMessage();
         pigeonReturn.setUri(uri);
@@ -293,18 +312,20 @@ public class Messages {
         pigeonReturn.setHttpHeaders(httpHeaders);
         pigeonReturn.setUserAgent(userAgent);
         pigeonReturn.setViewType(viewType);
+        pigeonReturn.setInitialBitrate(initialBitrate);
         return pigeonReturn;
       }
     }
 
     @NonNull
     ArrayList<Object> toList() {
-      ArrayList<Object> toListResult = new ArrayList<>(5);
+      ArrayList<Object> toListResult = new ArrayList<>(6);
       toListResult.add(uri);
       toListResult.add(formatHint);
       toListResult.add(httpHeaders);
       toListResult.add(userAgent);
       toListResult.add(viewType);
+      toListResult.add(initialBitrate);
       return toListResult;
     }
 
@@ -320,6 +341,8 @@ public class Messages {
       pigeonResult.setUserAgent((String) userAgent);
       Object viewType = pigeonVar_list.get(4);
       pigeonResult.setViewType((PlatformVideoViewType) viewType);
+      Object initialBitrate = pigeonVar_list.get(5);
+      pigeonResult.setInitialBitrate((Long) initialBitrate);
       return pigeonResult;
     }
   }

@@ -269,7 +269,11 @@ static void upgradeAudioSessionCategory(AVAudioSessionCategory requestedCategory
       headers.count == 0 ? nil : @{@"AVURLAssetHTTPHeaderFieldsKey" : headers};
   AVURLAsset *asset = [AVURLAsset URLAssetWithURL:[NSURL URLWithString:options.uri]
                                           options:itemOptions];
-  return [AVPlayerItem playerItemWithAsset:asset];
+  AVPlayerItem *item = [AVPlayerItem playerItemWithAsset:asset];
+  if (options.initialBitrate != nil) {
+    item.preferredPeakBitRate = options.initialBitrate.doubleValue;
+  }
+  return item;
 }
 
 @end

@@ -444,6 +444,7 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
           uri: dataSource,
           formatHint: formatHint,
           httpHeaders: httpHeaders,
+          initialBitrate: videoPlayerOptions?.initialBitrate,
         );
       case DataSourceType.file:
         dataSourceDescription = DataSource(
